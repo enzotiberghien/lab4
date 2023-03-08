@@ -32,7 +32,7 @@ const getUsers = async () => {
   return new Promise((resolve, reject) => {
     const users = []
     db.each("SELECT * FROM user", (err, row) => {
-      users.push({ username: row.username, password: row.password })
+      users.push({ name: row.name, password: row.password })
     }, (err) => err ? reject(err) : resolve(users))
   })
 }
