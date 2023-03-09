@@ -32,7 +32,7 @@ const getUsers = async () => {
   return new Promise((resolve, reject) => {
     const users = []
     db.each("SELECT * FROM users", (err, row) => {
-      users.push({ ID: row.userID, password: row.password })
+      users.push({ userID: row.userID, name: row.name, role: row.role,  password: row.password })
     }, (err) => err ? reject(err) : resolve(users))
   })
 }
@@ -40,7 +40,7 @@ const getUsers = async () => {
 const getUser = async (user) => {
   const users = await getUsers()
   console.log(users)
-  const filtered = users.filter(e => e.ID === user)
+  const filtered = users.filter(e => e.userID === user)
   console.log(filtered)
   return filtered
 }

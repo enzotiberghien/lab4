@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const db = require("./utils/database")
 require("dotenv").config()
-const { protect } = require("./middlewares/protect")
+const { protect, checkAccess } = require("./middlewares/protect")
 const { loadView, login } = require("./userController.js")
 
 const app = express();
@@ -27,7 +27,7 @@ app.post("/", protect, (req, res) => {
   res.render("start.ejs")
 })
 
-app.get("/admin", protect, loadView("admin.ejs"))
+app.get("/admin", protect, checkAccess("admin"), loadView("admin.ejs"))
 
 app.route("/identify")
   .get(loadView("identify.ejs"))

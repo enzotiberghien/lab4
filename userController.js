@@ -27,7 +27,8 @@ const login = async (req, res) => {
     setCurrentToken(token)
     console.log(token)
 
-    res.redirect("/")
+    if (req.body.userID === "admin") res.redirect("/admin")
+    else res.redirect("/")
   } else {
     req.method = "GET"
     res.redirect(`/fail/Incorrect Password`) // Redirect to the fail page
