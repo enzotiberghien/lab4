@@ -23,7 +23,7 @@ const db = new sqlite3.Database('lab4db', err => {
 // init()
 
 const addUser = (username, password) => {
-  db.run("INSERT INTO user VALUES (?, ?)", [username, password], (err) => {
+  db.run("INSERT INTO users VALUES (?, ?)", [username, password], (err) => {
     if (err) throw err
   })
 }
@@ -31,8 +31,8 @@ const addUser = (username, password) => {
 const getUsers = async () => {
   return new Promise((resolve, reject) => {
     const users = []
-    db.each("SELECT * FROM user", (err, row) => {
-      users.push({ name: row.name, password: row.password })
+    db.each("SELECT * FROM users", (err, row) => {
+      users.push({ ID: row.userID, password: row.password })
     }, (err) => err ? reject(err) : resolve(users))
   })
 }
@@ -40,7 +40,8 @@ const getUsers = async () => {
 const getUser = async (user) => {
   const users = await getUsers()
   console.log(users)
-  const filtered = users.filter(e => e.username === user)
+  const filtered = users.filter(e => e.ID === user)
+  console.log(filtered)
   return filtered
 }
 

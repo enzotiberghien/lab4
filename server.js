@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken")
 const db = require("./utils/database")
 require("dotenv").config()
 const { protect } = require("./middlewares/protect")
+const { loadView, login } = require("./userController.js")
 
 const app = express();
 const PORT = process.env.PORT;
@@ -22,14 +23,16 @@ app.use(express.json())
 app.get("/", protect, (req, res) => {
   res.render("start.ejs")
 })
-
-app.get("/admin", (req, res) => {
-  res.render("admin.ejs")
+app.post("/", protect, (req, res) => {
+  res.render("start.ejs")
 })
 
-app.get("/identify", (req, res) => {
-  res.render("identify.ejs")
-})
+app.get("/admin", protect, loadView("admin.ejs"))
+
+app.route("/identify")
+  .get(loadView("identify.ejs"))
+  .post(login)
+
 
 app.listen(PORT, (err) => {
   console.log("Server running on port: ", PORT)
