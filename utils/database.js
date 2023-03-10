@@ -10,8 +10,8 @@ const db = new sqlite3.Database('lab4db', err => {
 //     db.run('CREATE TABLE IF NOT EXISTS users(userID text PRIMARY KEY, name text, role text, password text)');
 //     db.run(`INSERT INTO users VALUES 
 //       ('id1', 'user1', 'student', 'password'),
-//       ('id2', 'user2', 'student', 'passwor2'),
-//       ('id3', 'user3', 'student', 'password3'),
+//       ('id2', 'user2', 'student', 'password2'),
+//       ('id3', 'user3', 'teacher', 'password3'),
 //       ('admin', 'admin', 'admin', 'admin')`);
 //     db.each("SELECT * FROM users", (err, row) => {
 //       if (err) throw err
@@ -22,10 +22,12 @@ const db = new sqlite3.Database('lab4db', err => {
 // }
 // init()
 
-const addUser = (username, password) => {
-  db.run("INSERT INTO users VALUES (?, ?)", [username, password], (err) => {
+const addUser = (userID, name, role, password) => {
+  db.run("INSERT INTO users VALUES (?, ?, ?, ?)", [userID, name, role, password], (err) => {
     if (err) throw err
   })
+
+  console.log(userID, name, role, password)
 }
 
 const getUsers = async () => {

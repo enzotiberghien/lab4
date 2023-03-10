@@ -19,16 +19,24 @@ const protect = (req, res, next) => {
   }
 }
 
-const checkAccess = (requiredRole) => {
-  return async (req, res, next) => {
-    let user = await db.getUser(currentUser);
-    user = user[0]
-    if (!user || user.role !== requiredRole) {
-      // res.status(401).send("Unauthorized.")
+const checkAccess = async (req, res, next) => {
+  let user = await db.getUser(currentUser);
+  user = user[0]
+
+  if (user.role === "student") {
+    if ((req.params.userID !== user.userID) && (user.role !== "teacher" || user.role !== "admin")) {
+      // return 401 error
       return res.redirect('/identify');
     }
-    next();
+  } else if (user.role === "teacher") {
+    if (req.path === "/admin" || req.params.userID === "admin") {
+      // return 401 error
+      return res.redirect('/identify');
+
+    }
   }
+
+  next();
 }
 
 module.exports = {
