@@ -3,12 +3,14 @@ const db = require("./utils/database.js")
 const jwt = require("jsonwebtoken")
 const { setCurrentUser, setCurrentToken } = require("./middlewares/protect.js")
 
+
 const loadView = (view) => {
   return (req, res, next) => {
     res.render(view)
     next()
   }
 }
+
 
 const login = async (req, res) => {
   const user = await db.getUser(req.body.userID)
@@ -76,6 +78,7 @@ const register = async (req, res) => {
 const renderAdmin = async (req, res) => {
   res.render("admin.ejs", { users: await db.getUsers() })
 }
+
 
 const renderUser = async (req, res) => {
   let u = await db.getUser(req.params.userID)

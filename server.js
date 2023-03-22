@@ -23,6 +23,7 @@ app.use(express.json())
 app.get("/", protect, (req, res) => {
   res.render("start.ejs")
 })
+
 app.post("/", protect, (req, res) => {
   res.render("start.ejs")
 })
